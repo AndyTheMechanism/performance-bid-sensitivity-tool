@@ -1,0 +1,62 @@
+/* ==============================================
+   PROJECT: Performance Audit & Bid Sensitivity Tool
+   DAX Measures Documentation
+   ==============================================
+*/
+
+-- 1. BASE AGGREGATIONS (Raw Sums)
+-- ----------------------------------------------
+
+Total Spent = 
+SUM('v_performance_analysis'[costs_rub])
+
+Total Conversions = 
+SUM('v_performance_analysis'[conv_any])
+
+Total Clicks = 
+SUM('v_performance_analysis'[clicks])
+
+
+-- 2. CALCULATED PERFORMANCE METRICS
+-- ----------------------------------------------
+-- Note: Using DIVIDE function to handle potential "Division by Zero" errors gracefully.
+
+Dynamic CPC = 
+DIVIDE(
+    [Total Spent], 
+    [Total Clicks], 
+    0
+)
+
+Dynamic CPP = 
+DIVIDE(
+    [Total Spent], 
+    [Total Conversions], 
+    0
+)
+
+
+-- 3. WHAT-IF PARAMETER LOGIC
+-- ----------------------------------------------
+-- Captures the user-selected value from the "Target CPC" slicer.
+
+Target CPC Value = 
+SELECTEDVALUE(
+    'Target CPC'[Target CPC], 
+    50 -- Default fallback value
+)
+
+
+-- 4. UI & VISUAL LOGIC (Conditional Formatting)
+-- ----------------------------------------------
+-- This measure is used for "Field Value" conditional formatting of the Matrix background.
+
+CPC Alert Color = 
+VAR CurrentCPC = [Dynamic CPC]
+VAR Threshold = [Target CPC Value]
+RETURN
+    IF (
+        CurrentCPC > Threshold, 
+        "#FF9999", -- Light Red for over-budget
+        "#99FF99"  -- Light Green for optimal performance
+    )
