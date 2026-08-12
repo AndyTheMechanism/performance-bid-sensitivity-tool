@@ -1,4 +1,4 @@
-[Read in English](README.md) | [Читать на русском языке](README.ru.md)
+[![English](https://img.shields.io/badge/lang-English-2563eb?style=for-the-badge)](README.md) [![Русский](https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-64748b?style=for-the-badge)](README.ru.md)
 
 # Performance Audit & Bid Sensitivity Tool
 
